@@ -33,7 +33,7 @@ namespace PLC_Slave_System.Protocols
         /// <summary>
         /// 通訊 讀取位置
         /// </summary>
-        public byte Address { get; set; }
+        public int Address { get; set; }
     }
     #endregion
     #region Function 2
@@ -46,7 +46,7 @@ namespace PLC_Slave_System.Protocols
         /// <summary>
         /// 通訊 讀取位置
         /// </summary>
-        public byte Address { get; set; }
+        public int Address { get; set; }
     }
     #endregion
     #region Function 3
@@ -59,7 +59,7 @@ namespace PLC_Slave_System.Protocols
         /// <summary>
         /// 通訊 讀取位置
         /// </summary>
-        public byte Address { get; set; }
+        public int Address { get; set; }
     }
     #endregion
     #region Function 4
@@ -72,7 +72,7 @@ namespace PLC_Slave_System.Protocols
         /// <summary>
         /// 通訊 讀取位置
         /// </summary>
-        public byte Address { get; set; }
+        public int Address { get; set; }
     }
     #endregion
 }

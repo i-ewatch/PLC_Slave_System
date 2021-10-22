@@ -1,5 +1,6 @@
 ﻿using MathLibrary;
 using NModbus;
+using PLC_Slave_System.Components;
 using PLC_Slave_System.configuration;
 
 namespace PLC_Slave_System.Protocols
@@ -34,6 +35,6 @@ namespace PLC_Slave_System.Protocols
         /// 資料讀取
         /// </summary>
         /// <param name="master"></param>
-        public abstract void ReadData(IModbusMaster master,int LocationIndex);
+        public abstract void ReadData(IModbusMaster master, TCPComponent tCPComponent);
     }
 }

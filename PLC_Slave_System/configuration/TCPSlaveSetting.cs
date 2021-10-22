@@ -53,7 +53,7 @@ namespace PLC_Slave_System.configuration
         /// <summary>
         /// 設備讀取位址
         /// </summary>
-        public byte ReadAddress { get; set; }
+        public int ReadAddress { get; set; }
         /// <summary>
         /// 設備名稱
         /// </summary>
@@ -61,7 +61,7 @@ namespace PLC_Slave_System.configuration
         /// <summary>
         /// Slave寫入位置
         /// </summary>
-        public byte SlaveAddress { get; set; }
+        public int SlaveAddress { get; set; }
         /// <summary>
         /// Slave寫入方法
         /// </summary>

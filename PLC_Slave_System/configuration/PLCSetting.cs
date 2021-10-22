@@ -47,7 +47,7 @@ namespace PLC_Slave_System.configuration
         /// <summary>
         /// 設備讀取位址
         /// </summary>
-        public byte ReadAddress { get; set; }
+        public int ReadAddress { get; set; }
         /// <summary>
         /// 設備讀取長度
         /// </summary>

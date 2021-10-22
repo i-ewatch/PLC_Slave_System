@@ -49,13 +49,14 @@ namespace PLC_Slave_System.Components
                 {
                     try
                     {
+                        AbsProtocol.LocationIndex = BackupIndex;
                         using (TcpClient client = new TcpClient(IPSetting.Location[BackupIndex], IPSetting.port[BackupIndex]))
                         {
                             master = Factory.CreateMaster(client);//建立TCP通訊
-                            master.Transport.Retries = 1;
+                            master.Transport.Retries = 0;
                             master.Transport.ReadTimeout = 1000;
                             master.Transport.WriteTimeout = 500;
-                            AbsProtocol.ReadData(master, BackupIndex);
+                            AbsProtocol.ReadData(master, this);
                             Thread.Sleep(10);
                             ReadTime = DateTime.Now;
                         }
@@ -63,6 +64,7 @@ namespace PLC_Slave_System.Components
                     catch (ThreadAbortException) { }
                     catch (Exception ex)
                     {
+                        Log.Error(ex, $"通訊失敗 IP:{IPSetting.Location[BackupIndex]}， Port:{IPSetting.port[BackupIndex]} ");
                         if (BackupIndex >= IPSetting.Location.Length-1)
                         {
                             BackupIndex = 0;
@@ -75,7 +77,6 @@ namespace PLC_Slave_System.Components
                             }
                         }
                         AbsProtocol.ConnectionFlag = false;
-                        Log.Error(ex, $"通訊失敗 IP:{IPSetting.Location[BackupIndex]} Port:{IPSetting.port[BackupIndex]} ");
                     }
                 }
                 else

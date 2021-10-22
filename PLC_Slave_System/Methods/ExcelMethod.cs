@@ -116,14 +116,14 @@ namespace PLC_Slave_System.Methods
                                     PointSetting point = null;
                                     if (iP.PointSettings.Count > 0)
                                     {
-                                        point = iP.PointSettings.SingleOrDefault(g => g.ReadAddress == Convert.ToByte(Address.ToString()));
+                                        point = iP.PointSettings.SingleOrDefault(g => g.ReadAddress == Convert.ToInt32(Address.ToString()));
                                         if (point == null)
                                         {
                                             point = new PointSetting()
                                             {
-                                                ReadAddress = Convert.ToByte(Address.ToString()),
+                                                ReadAddress = Convert.ToInt32(Address.ToString()),
                                                 ReadFunction = Convert.ToInt32(Function.ToString()),
-                                                ReadQuantity = Convert.ToByte(Quantity.ToString())
+                                                ReadQuantity = Convert.ToInt32(Quantity.ToString())
                                             };
                                             iP.PointSettings.Add(point);
                                         }
@@ -132,14 +132,22 @@ namespace PLC_Slave_System.Methods
                                     {
                                         point = new PointSetting()
                                         {
-                                            ReadAddress = Convert.ToByte(Address.ToString()),
+                                            ReadAddress = Convert.ToInt32(Address.ToString()),
                                             ReadFunction = Convert.ToInt32(Function.ToString()),
                                             ReadQuantity = Convert.ToByte(Quantity.ToString())
                                         };
                                         iP.PointSettings.Add(point);
                                     }
                                     #endregion
-                                    PLCSetting.IPSettings.Add(iP);
+                                    var iPSetting = PLCSetting.IPSettings.SingleOrDefault(g => g.Name == DeviceName.ToString());
+                                    if (iPSetting != null)
+                                    {
+                                        iPSetting = iP;
+                                    }
+                                    else
+                                    {
+                                        PLCSetting.IPSettings.Add(iP);
+                                    }
                                 }
                             }
                             InitialMethod.Save_PLC(PLCSetting);
@@ -208,15 +216,15 @@ namespace PLC_Slave_System.Methods
                                     SPointSetting point = null;
                                     if (sID.PointSettings.Count > 0)
                                     {
-                                        point = sID.PointSettings.SingleOrDefault(g => g.SlaveFunction == Convert.ToInt32(SFunction.ToString()) & g.SlaveAddress == Convert.ToByte(SAddress.ToString()));
+                                        point = sID.PointSettings.SingleOrDefault(g => g.SlaveFunction == Convert.ToInt32(SFunction.ToString()) & g.SlaveAddress == Convert.ToInt32(SAddress.ToString()));
                                         if (point == null)
                                         {
                                             point = new SPointSetting()
                                             {
                                                 ReadFunction = Convert.ToInt32(DFunction.ToString()),
-                                                ReadAddress = Convert.ToByte(DAddress.ToString()),
+                                                ReadAddress = Convert.ToInt32(DAddress.ToString()),
                                                 DeviceName = DeviceName.ToString(),
-                                                SlaveAddress = Convert.ToByte(SAddress.ToString()),
+                                                SlaveAddress = Convert.ToInt32(SAddress.ToString()),
                                                 SlaveFunction = Convert.ToInt32(SFunction.ToString()),
                                             };
                                             sID.PointSettings.Add(point);
@@ -227,9 +235,9 @@ namespace PLC_Slave_System.Methods
                                         point = new SPointSetting()
                                         {
                                             ReadFunction = Convert.ToInt32(DFunction.ToString()),
-                                            ReadAddress = Convert.ToByte(DAddress.ToString()),
+                                            ReadAddress = Convert.ToInt32(DAddress.ToString()),
                                             DeviceName = DeviceName.ToString(),
-                                            SlaveAddress = Convert.ToByte(SAddress.ToString()),
+                                            SlaveAddress = Convert.ToInt32(SAddress.ToString()),
                                             SlaveFunction = Convert.ToInt32(SFunction.ToString()),
                                         };
                                         sID.PointSettings.Add(point);
