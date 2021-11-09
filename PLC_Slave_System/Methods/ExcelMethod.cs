@@ -62,91 +62,84 @@ namespace PLC_Slave_System.Methods
                                 IRow row = data.GetRow(Rownum);
                                 if (row != null)
                                 {
-                                    ICell IP_One = row.GetCell(0);
-                                    ICell IP_Two = row.GetCell(1);
+                                    ICell IP = row.GetCell(0);
+                                    string[] IPstr = IP.ToString().Split(',');
+                                    ICell Port = row.GetCell(1);
+                                    string[] Portstr = Port.ToString().Split(',');
                                     ICell ID = row.GetCell(2);
+                                    string[] IDstr = ID.ToString().Split(',');
                                     ICell DeviceName = row.GetCell(3);
                                     ICell Function = row.GetCell(4);
                                     ICell Address = row.GetCell(5);
                                     ICell Quantity = row.GetCell(6);
                                     #region IP資訊整合
                                     IPSetting iP = null;
-                                    if (PLCSetting.IPSettings.Count > 0)
+                                    if (IPstr.Length == Portstr.Length && Portstr.Length == IDstr.Length)
                                     {
-                                        iP = PLCSetting.IPSettings.SingleOrDefault(g => g.Name == DeviceName.ToString());
-                                        if (iP == null)
+                                        if (PLCSetting.IPSettings.Count > 0)
                                         {
-                                            iP = new IPSetting()
+                                            iP = PLCSetting.IPSettings.SingleOrDefault(g => g.Name == DeviceName.ToString());
+                                            if (iP == null)
                                             {
-                                                ID = Convert.ToInt32(ID.ToString()),
-                                                Name = DeviceName.ToString(),
-                                            };
-                                            if (IP_Two.ToString() == "N")
-                                            {
-                                                iP.Location = new string[] { IP_One.ToString().Split(':')[0] };
-                                                iP.port = new int[] { Convert.ToInt32(IP_One.ToString().Split(':')[1]) };
+                                                iP = new IPSetting();
+                                                iP.Location = IPstr;
+                                                for (int i = 0; i < Portstr.Length; i++)
+                                                {
+                                                    iP.port[i] = Convert.ToInt32(Portstr[i]);
+                                                    iP.ID[i] = Convert.ToInt32(IDstr[i]);
+                                                }
                                             }
-                                            else
-                                            {
-                                                iP.Location = new string[] { IP_One.ToString().Split(':')[0], IP_Two.ToString().Split(':')[0] };
-                                                iP.port = new int[] { Convert.ToInt32(IP_One.ToString().Split(':')[1]), Convert.ToInt32(IP_Two.ToString().Split(':')[1]) };
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        iP = new IPSetting()
-                                        {
-                                            ID = Convert.ToInt32(ID.ToString()),
-                                            Name = DeviceName.ToString(),
-                                        };
-                                        if (IP_Two.ToString() == "N")
-                                        {
-                                            iP.Location = new string[] { IP_One.ToString().Split(':')[0] };
-                                            iP.port = new int[] { Convert.ToInt32(IP_One.ToString().Split(':')[1]) };
                                         }
                                         else
                                         {
-                                            iP.Location = new string[] { IP_One.ToString().Split(':')[0], IP_Two.ToString().Split(':')[0] };
-                                            iP.port = new int[] { Convert.ToInt32(IP_One.ToString().Split(':')[1]), Convert.ToInt32(IP_Two.ToString().Split(':')[1]) };
+                                            iP = new IPSetting();
+                                            iP.Name = DeviceName.ToString();
+                                            iP.Location = IPstr;
+                                            iP.port = new int[iP.Location.Length];
+                                            iP.ID = new int[iP.Location.Length];
+                                            for (int i = 0; i < Portstr.Length; i++)
+                                            {
+                                                iP.port[i] = Convert.ToInt32(Portstr[i]);
+                                                iP.ID[i] = Convert.ToInt32(IDstr[i]);
+                                            }
                                         }
-                                    }
-                                    #endregion
-                                    #region 點位資訊整合
-                                    PointSetting point = null;
-                                    if (iP.PointSettings.Count > 0)
-                                    {
-                                        point = iP.PointSettings.SingleOrDefault(g => g.ReadAddress == Convert.ToInt32(Address.ToString()));
-                                        if (point == null)
+                                        #endregion
+                                        #region 點位資訊整合
+                                        PointSetting point = null;
+                                        if (iP.PointSettings.Count > 0)
+                                        {
+                                            point = iP.PointSettings.SingleOrDefault(g => g.ReadAddress == Convert.ToInt32(Address.ToString()));
+                                            if (point == null)
+                                            {
+                                                point = new PointSetting()
+                                                {
+                                                    ReadAddress = Convert.ToInt32(Address.ToString()),
+                                                    ReadFunction = Convert.ToInt32(Function.ToString()),
+                                                    ReadQuantity = Convert.ToInt32(Quantity.ToString())
+                                                };
+                                                iP.PointSettings.Add(point);
+                                            }
+                                        }
+                                        else
                                         {
                                             point = new PointSetting()
                                             {
                                                 ReadAddress = Convert.ToInt32(Address.ToString()),
                                                 ReadFunction = Convert.ToInt32(Function.ToString()),
-                                                ReadQuantity = Convert.ToInt32(Quantity.ToString())
+                                                ReadQuantity = Convert.ToByte(Quantity.ToString())
                                             };
                                             iP.PointSettings.Add(point);
                                         }
-                                    }
-                                    else
-                                    {
-                                        point = new PointSetting()
+                                        #endregion
+                                        var iPSetting = PLCSetting.IPSettings.SingleOrDefault(g => g.Name == DeviceName.ToString());
+                                        if (iPSetting != null)
                                         {
-                                            ReadAddress = Convert.ToInt32(Address.ToString()),
-                                            ReadFunction = Convert.ToInt32(Function.ToString()),
-                                            ReadQuantity = Convert.ToByte(Quantity.ToString())
-                                        };
-                                        iP.PointSettings.Add(point);
-                                    }
-                                    #endregion
-                                    var iPSetting = PLCSetting.IPSettings.SingleOrDefault(g => g.Name == DeviceName.ToString());
-                                    if (iPSetting != null)
-                                    {
-                                        iPSetting = iP;
-                                    }
-                                    else
-                                    {
-                                        PLCSetting.IPSettings.Add(iP);
+                                            iPSetting = iP;
+                                        }
+                                        else
+                                        {
+                                            PLCSetting.IPSettings.Add(iP);
+                                        }
                                     }
                                 }
                             }

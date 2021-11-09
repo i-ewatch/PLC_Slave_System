@@ -21,7 +21,7 @@ namespace PLC_Slave_System.configuration
         /// <summary>
         /// 設備位址
         /// </summary>
-        public int ID { get; set; }
+        public int[] ID { get; set; }
         /// <summary>
         /// TCP IP 
         /// </summary>

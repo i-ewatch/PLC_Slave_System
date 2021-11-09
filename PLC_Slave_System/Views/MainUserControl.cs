@@ -18,7 +18,7 @@ namespace PLC_Slave_System.Views
             {
                 foreach (var item in PLCSetting.IPSettings)
                 {
-                    ConnectionUserControl control = new ConnectionUserControl(item) { Location = new Point(5 + 250 * (Index % 3), 5 + 113 * (Index / 3)) };
+                    ConnectionUserControl control = new ConnectionUserControl(item) { Location = new Point(5 + 250 * (Index % 3), 5 + 220 * (Index / 3)) };
                     ViewxtraScrollableControl.Controls.Add(control);
                     Field4UserControls.Add(control);
                     Index++;

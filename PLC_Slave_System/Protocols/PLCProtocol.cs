@@ -23,7 +23,7 @@ namespace PLC_Slave_System.Protocols
                         case FunctionTypeEnum.Colis:
                             {
                                 Index = 0;
-                                bool[] value = master.ReadCoils(Convert.ToByte(IPSetting.ID), Convert.ToUInt16(Pointitem.ReadAddress - 1), Convert.ToUInt16(Pointitem.ReadQuantity));
+                                bool[] value = master.ReadCoils(Convert.ToByte(IPSetting.ID[LocationIndex]), Convert.ToUInt16(Pointitem.ReadAddress - 1), Convert.ToUInt16(Pointitem.ReadQuantity));
                                 foreach (bool item in value)
                                 {
                                     if (ColisDatas.Count > 0)
@@ -59,7 +59,7 @@ namespace PLC_Slave_System.Protocols
                         case FunctionTypeEnum.Discret:
                             {
                                 Index = 0;
-                                bool[] value = master.ReadInputs(Convert.ToByte(IPSetting.ID), Convert.ToUInt16(Pointitem.ReadAddress - 1), Convert.ToUInt16(Pointitem.ReadQuantity));
+                                bool[] value = master.ReadInputs(Convert.ToByte(IPSetting.ID[LocationIndex]), Convert.ToUInt16(Pointitem.ReadAddress - 1), Convert.ToUInt16(Pointitem.ReadQuantity));
                                 foreach (bool item in value)
                                 {
                                     if (DiscreteDatas.Count > 0)
@@ -95,7 +95,7 @@ namespace PLC_Slave_System.Protocols
                         case FunctionTypeEnum.HoldingRegister:
                             {
                                 Index = 0;
-                                ushort[] value = master.ReadHoldingRegisters(Convert.ToByte(IPSetting.ID), Convert.ToUInt16(Pointitem.ReadAddress - 1), Convert.ToUInt16(Pointitem.ReadQuantity));
+                                ushort[] value = master.ReadHoldingRegisters(Convert.ToByte(IPSetting.ID[LocationIndex]), Convert.ToUInt16(Pointitem.ReadAddress - 1), Convert.ToUInt16(Pointitem.ReadQuantity));
                                 foreach (ushort item in value)
                                 {
                                     if (HoldingRegisterDatas.Count > 0)
@@ -131,7 +131,7 @@ namespace PLC_Slave_System.Protocols
                         case FunctionTypeEnum.InputRegister:
                             {
                                 Index = 0;
-                                ushort[] value = master.ReadInputRegisters(Convert.ToByte(IPSetting.ID), Convert.ToUInt16(Pointitem.ReadAddress - 1), Convert.ToUInt16(Pointitem.ReadQuantity));
+                                ushort[] value = master.ReadInputRegisters(Convert.ToByte(IPSetting.ID[LocationIndex]), Convert.ToUInt16(Pointitem.ReadAddress - 1), Convert.ToUInt16(Pointitem.ReadQuantity));
                                 foreach (ushort item in value)
                                 {
                                     if (InputRegisterDatas.Count > 0)
